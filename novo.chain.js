@@ -34,25 +34,9 @@ var calculateHash = (key, x) => {
 
 // console.log(calculateHash('test', 'jordan'));
 // An array that stores blocks
-exports.blockchain = [{index:0, data: ['',{
-  name:'jordan',
-  address: '950 a deleware ave',
-  timestamp: moment().format('x'),
-  signature: getSignature([`publicKey`], [`publicAddress`]),
+exports.blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', metadata: {restrictAccess: [], allowAccess:['jordan']}, contract: { hardRules:{ isPrivate:'' }, abilities:[]}}]
 
-}],
-  hash: 'ee183d1e0c62bb55bfbf69f268fd6c08c42f86248de529b9298bd27750836577'
-}]
-
-var blockchain = [{index:0, data: ['',{
-  name:'jordan',
-  address: '950 a deleware ave',
-  timestamp: moment().format('x'),
-  signature: getSignature([`publicKey`], [`publicAddress`]),
-
-}],
-  hash: 'ee183d1e0c62bb55bfbf69f268fd6c08c42f86248de529b9298bd27750836577'
-}]
+var blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', metadata: {restrictAccess: [], allowAccess:['jordan']}, contract: { hardRules:{ isPrivate:'' }, abilities:[]}}]
 //
 // blockchain[0].hash = calculateHash(blockchain[0].index.toString() + blockchain[0].data.toString(), blockchain[0].index.toString(),)
 // console.log(blockchain);
