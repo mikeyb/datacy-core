@@ -57,7 +57,7 @@ var findEmptyBlock = () => {
 class Account {
   constructor(name, address, willBuyData) {
     this.name = name
-    this.address = address
+    this.email = email
     this.timestamp = moment().format('x')
     this.willBuyData = willBuyData
   }
@@ -396,8 +396,6 @@ var compareLast = (peer, peers) => {
 
 }
 
-var lockData = (userData) => {
-}
 
 // console.log('consensusMechanisms : compareChainLength :', consensusMechanisms.compareChainLength(allChains));
 
