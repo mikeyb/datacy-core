@@ -43,12 +43,6 @@ var blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', meta
 
 var accounts = []
 
-// single mock peer
-var me = {
-  address: '950 a deleware ave',
-  timestamp: moment().format('x'),
-  signature: getSignature([`publicKey`], [`publicAddress`])
-}
 
 // finds block with data containing < 3 objects
 var findEmptyBlock = () => {
@@ -82,7 +76,7 @@ var addAccount = (account) => {
 
 // creates a block that can store data
 class Block {
-  constructor(index, previousHash, name, toAddress, fromAddress, hash) {
+  constructor(index, previousHash, name, toAddress, fromAddress, contract, hash) {
 
       this.index = index
       this.data = []
@@ -90,6 +84,7 @@ class Block {
       this.previousHash = previousHash
       this.timestamp = moment().format('LLL')
       this.timestampMilliseconds = moment().format('x')
+      this.contract = contract
       this.hash = hash
   }
 }
