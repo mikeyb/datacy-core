@@ -397,17 +397,6 @@ var compareLast = (peer, peers) => {
 }
 
 
-// console.log('consensusMechanisms : compareChainLength :', consensusMechanisms.compareChainLength(allChains));
-
-// console.log('verifySenderSentData',verifySenderSentData.byName({index:0, name: 'jordan', data: ['',{
-//   name:'jordan',
-//   address: '950 a deleware ave',
-//   timestamp: moment().format('x'),
-//   isPostOfficeEmployee: 0,
-//   signature: getSignature([`publicKey`], [`publicAddress`])
-// }],
-// }));
-
 app.get('/send.letter/:name/:toCity/:toStreet/:fromAddress', (req, res) => {
 
 })
