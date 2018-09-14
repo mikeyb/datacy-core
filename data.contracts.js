@@ -95,3 +95,36 @@ var isOwner = (peer, data, blockchain) => {
   return refRecord
 }
 
+var findData = (data, blockchain) => {
+  var db = blockchain
+  var match = _.where(db, {data:data})
+  console.log(match);
+  return match
+}
+
+var findPayment = (address) = {
+  var match = _.where(blockchain, {to: address})
+  if (match.length === 0) {
+    return false
+  }
+  else {
+    console.log('match found');
+    return match
+  }
+}
+
+var mostRecentOwner = (data, blockchain) => {
+  var record = _.findWhere(blockchain, { data:data })
+  return record.to
+}
+
+
+console.log('mostreceent', mostRecentOwner('test', blockchain), '\n');
+console.log('findData', findData('test', blockchain), '\n');
+console.log('isOwner', isOwner('0x0000fff', 'test', blockchain), '\n');
+console.log('isThisUserOwner', isThisUserOwner(blockchain[0]), '\n');
+
+var contractWorkers = {
+}
+
+console.log(contractAbilities.restrictAccess('some', 0))
