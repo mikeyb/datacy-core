@@ -15,14 +15,13 @@ var user = {
 }
 
 class Block {
-    constructor(index, previousHash, timestamp, data, isPublic, restrictAccess, hash) {
+    constructor(index, previousHash, timestamp, data, contract, hash) {
         this.index = index;
         this.previousHash = previousHash
         this.timestamp = timestamp;
         this.metadata = {
-          userData : data,
-          restrictAccess : [restrictAccess],
-          isPublic : isPublic
+          data:data,
+          contract:this.contract
         }
         this.hash = hash;
     }
