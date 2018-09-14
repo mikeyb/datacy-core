@@ -76,7 +76,7 @@ var addAccount = (account) => {
 
 // creates a block that can store data
 class Block {
-  constructor(index, previousHash, name, toAddress, fromAddress, contract, hash) {
+  constructor(index, previousHash, name, toAddress, fromAddress, data, contract, hash) {
 
       this.index = index
       this.data = []
@@ -98,42 +98,12 @@ var createGenisisBlock = () => {
 
 console.log(`Genisis Block\n ${createGenisisBlock()}`);
 
-// a letter kind of like the old handwritten kind but these are stored inside of a block
-class Letter  {
-  constructor(index, name, assetIn, inAmt, OutAmt, assetOut, timestamp, spent) {
-    this.index = index
-    this.name = name
-    this.assetIn = assetIn
-    this.inAmt = inAmt
-    this.assetOut = assetOut
-    this.OutAmt = OutAmt
-    this.timestamp = timestamp
-    this.spent = spent
-
-
-    this.timestamp = moment().format('LLL')
-  }
-}
 
 var getBits = (data) => {
   var data = data.toString()
   return data.length
 }
 
-class UserData {
-  constructor(wallet, data, restrictions, isPrivate, contractJson, hash, timestamp) {
-    this.wallet = wallet
-    this.data = data
-    this.value = getBits(this.data.toString())
-    this.restrictions = restrictions
-    this.isPrivate = isPrivate
-    this.contractJson = contractJson
-    this.timestamp = timestamp
-    this.hash = calculateHash(this.wallet +timestamp, data )
-  }
-}
-
-console.log(new UserData('000', 'hello', undefined, false));
 
 var makePublicKey = (privateKey, account) => {
   if (privateKey.time < moment().format('x')) {
@@ -209,27 +179,6 @@ var mockPeers = [
   }
 ]
 
-
-/*
-generateStamp
-@param - amount {int}, the amount of stamps to generate
-pushes each hash to the stamps object
-*/
-var generateStamp = (amount) => {
-
-  for (var i = 0; i < amount; i++) {
-    const secret = moment().format('x').toString()
-    const hash = crypto.createHmac('sha256', secret)
-                     .update(i.toString() + me.signature)
-                     .digest('hex')
-
-    stamps.push(hash)
-  }
-  console.log('stamps\n',stamps, '\n');
-  return stamps
-}
-// generateStamp(100)
-
 var baseEncrypt = (data, x) => {
   var cryptr = new Cryptr(x)
   var encrypt = cryptr.encrypt(data)
@@ -243,10 +192,10 @@ var getLatestBlock = () => {
   return blockchain[blockchain.length - 1]
 }
 
-var newBlock = (index, previousBlock, name, toAddress, fromAddress, data ) => {
-  var block = new Block(index, previousBlock.hash, name, toAddress, fromAddress, data)
+var newBlock = (index, previousBlock, name, toAddress, fromAddress, data, contract ) => {
+  var block = new Block(index, previousBlock.hash, name, toAddress, fromAddress, data, contract)
 
-  block.hash = calculateHash(index + block.previousHash.toString(), block.timestamp)
+  block.hash = calculateHash(index + block.previousHash.toString(), block.timestamp + contract.toString())
   console.log('\nnew block', block);
   return block
 }
