@@ -76,15 +76,17 @@ var addAccount = (account) => {
 
 // creates a block that can store data
 class Block {
-  constructor(index, previousHash, name, toAddress, fromAddress, data, contract, hash) {
+  constructor(index, previousHash, name, toAddress, fromAddress, data, contract, hash, metadata) {
 
       this.index = index
-      this.data = []
       this.signers = []
       this.previousHash = previousHash
       this.timestamp = moment().format('LLL')
       this.timestampMilliseconds = moment().format('x')
-      this.contract = contract
+      this.metadata = {
+        data:this.data,
+        contract: this.contract,
+      }
       this.hash = hash
   }
 }
@@ -192,24 +194,15 @@ var getLatestBlock = () => {
   return blockchain[blockchain.length - 1]
 }
 
-var newBlock = (index, previousBlock, name, toAddress, fromAddress, data, contract ) => {
-  var block = new Block(index, previousBlock.hash, name, toAddress, fromAddress, data, contract)
+var newBlock = (index, previousBlock, name, toAddress, fromAddress, data, contract, metadata ) => {
+  var block = new Block(index, previousBlock.hash, name, toAddress, fromAddress, data, contract, metadata)
 
-  block.hash = calculateHash(index + block.previousHash.toString(), block.timestamp + contract.toString())
+  block.hash = calculateHash(index + block.previousHash.toString(), block.timestamp + block.metadata)
   console.log('\nnew block', block);
   return block
 }
 
-// newBlock(1, getLatestBlock())
 
-// creates a new letter in the first block
-exports.newLetter = (index, name, assetIn, inAmt, OutAmt, assetOut, timestamp, spent) => {
-  if (blockchain[blockchain.length - 1].data < 3) {
-    blockchain[blockchain.length - 1].data.push(new Letter(index, name, assetIn, inAmt, OutAmt, assetOut, timestamp, spent))
-    console.log('\nnew letter\n',blockchain[blockchain.length - 1].data);
-    return blockchain[blockchain.length - 1].data
-  }
-}
 
 // adds a block if the blockchain is determined valid by the isNewBlockValid function which is yet to be added
 var addBlock = (block, isNewBlockValid) => {
@@ -235,14 +228,6 @@ var signLetter = (block, x) => {
   block.signers.push(x)
   return block
 }
-
-var addLetter = (letter) => {
-  var empty = findEmptyBlock()
-  letter.hash = calculateHash(letter.toCity + letter.name, currentTime)
-  blockchain[empty].data.push(letter)
-  return blockchain[empty]
-}
-
 
 // console.log(measureContents(1, 2.4));
 
