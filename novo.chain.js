@@ -58,7 +58,7 @@ class Account {
   constructor(name, address, willBuyData) {
     this.name = name
     this.email = email
-    this.timestamp = moment().format('x')
+    this.timestamp = moment().format('x');
     this.willBuyData = willBuyData
   }
 }
