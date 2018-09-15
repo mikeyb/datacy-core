@@ -15,13 +15,12 @@ var getSignature = (publicKey, address) => {
   return cryptr.encrypt(publicKey, moment().format('x'))
 }
 
-// Calculates the has by using a key and x to digest a  hash using sha256
-exports.calculateHash = (key, x) => {
+// Calculates the has by using a key and data to digest a  hash using sha256
+exports.calculateHash = (key, data) => {
   const secret = key.toString();
-  const hash = crypto.createHmac('sha256', x)
+  return crypto.createHmac('sha256', data)
                    .update(key.toString())
                    .digest('hex');
-  return hash
 }
 
 var calculateHash = (key, x) => {
