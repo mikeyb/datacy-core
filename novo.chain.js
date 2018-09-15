@@ -56,7 +56,7 @@ var findEmptyBlock = () => {
 class Account {
   constructor(name, address, willBuyData) {
     this.name = name
-    this.email = email
+    this.address = address
     this.timestamp = moment().format('x');
     this.willBuyData = willBuyData
   }
