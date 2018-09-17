@@ -101,7 +101,7 @@ var findData = (data, blockchain) => {
   return match
 }
 
-var findPayment = (address) = {
+var findPayment = (address) => {
   var match = _.where(blockchain, {to: address})
   if (match.length === 0) {
     return false
