@@ -76,7 +76,7 @@ var addAccount = (account) => {
 
 // creates a block that can store data
 class Block {
-  constructor(index, previousHash, name, toAddress, fromAddress, data, contract, hash, metadata) {
+  constructor(index, previousHash, data, contract, hash, metadata) {
 
       this.index = index
       this.signers = []
@@ -397,8 +397,11 @@ var compareLast = (peer, peers) => {
 }
 
 
-app.get('/send.letter/:name/:toCity/:toStreet/:fromAddress', (req, res) => {
-
+app.get('/blocks/:data', (req, res) => {
+  var latestBlock = getLatestBlock()
+  var newblock = new Block(getLatestBlock(), blockchain[latestBlock.index].hash, req.params.data)
+  console.log('new block test', newblock);
+  res.send(newblock)
 })
 
 //sign block
