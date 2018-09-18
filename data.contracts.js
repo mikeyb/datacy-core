@@ -55,9 +55,9 @@ var lockData = (key, data) => { // encrypts or locks data with a key. The data c
 }
 
 var unlockData = (key, encrypted) => {
-  const decipher = crypto.createDecipher('aes192', 'a password');
+  var decipher = crypto.createDecipher('aes192', 'a password');
 
-  const encrypted = encrypted
+  var  encrypted = encrypted
   let decrypted = decipher.update(encrypted, 'hex', 'utf8');
   decrypted += decipher.final('utf8');
   console.log(decrypted);
