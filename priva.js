@@ -72,6 +72,11 @@ var createBlockWithTransaction = (blockData) => {
   return block
 }
 
+var makePrivateDataKey = (address, privateKey) => {
+  var privateKey = calculateHash(privateKey + timestamp, address)
+  return privateKey
+}
+
 app.listen(3010, (req, res) => {
   console.log('priva listening on port 3010');
 })
