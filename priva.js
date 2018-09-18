@@ -72,9 +72,14 @@ var createBlockWithTransaction = (blockData) => {
   return block
 }
 
-var makePrivateDataKey = (address, privateKey) => {
-  var privateKey = calculateHash(privateKey + timestamp, address)
+var makePrivateDataKey = (address, privateKey, data) => { // creates the private data key that when shasring data, the owner uses to sign the data
+  var privateKey = calculateHash(privateKey + timestamp, data)
   return privateKey
+}
+
+var makePublicDataKey = (privateDataKey, timestamp, data) => { // creates the public daa key that the owner uses to sign the public copy of the data that is going to be shared with a peer along with the public key
+  var publicKey = calculateHash(privateDataKey + timestamp, data)
+  return publicKey
 }
 
 app.listen(3010, (req, res) => {
