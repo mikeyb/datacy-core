@@ -3,6 +3,7 @@ var crypto = require('crypto')
 var express = require('express')
 var Cryptr = require('cryptr')
 var _ = require('underscore')
+var compression = require('lzutf8')
 var Math = require('math.js')
 // var datacy = require('./novo.chain')
 // var priva = require('./priva')
@@ -133,6 +134,21 @@ var mostRecentOwner = (data, blockchain) => {
   return record.to
 }
 
+var compress = (data) => {
+  var data = data
+  var output = compression.compress(data, {outputEncoding: 'StorageBinaryString'})
+  console.log(`\nData Size : ${data.length} \nCompressed Size : ${output.length}`);
+  return data
+}
+var compressData = compress('hell0000000000000000000000000000000000000000000000o')
+
+var decompress = (input, inputEncoding, outputEncoding) => {
+  var decompressed = compression.decompress(input, {outputEncoding:outputEncoding, inputEncoding:inputEncoding})
+  console.log(`Decompression, ${decompressed}\n`);
+  return decompressed
+}
+
+console.log(decompress(compress('0000000000000000000000000000000000'), 'StorageBinaryString', 'ByteArray'));
 console.log(lockData('heres some', 'datatatatat'));
 console.log('mostreceent', mostRecentOwner('test', blockchain), '\n');
 console.log('findData', findData('test', blockchain), '\n');

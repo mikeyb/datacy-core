@@ -4,6 +4,8 @@ var express = require('express')
 var Cryptr = require('cryptr')
 var _ = require('underscore')
 var Math = require('math.js')
+var compression = require('lzutf8')
+
 var app = new express();
 
 var user = {
