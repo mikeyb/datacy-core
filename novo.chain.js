@@ -151,7 +151,7 @@ var mockPeers = [
     name: 'jordan',
     chain: [{index:0, data: ['',{
       name:'mailman',
-      address: '950 a deleware ave',
+      address: '',
       timestamp: moment().format('x'),
       isPostOfficeEmployee: 0,
       signature: getSignature([`publicKey`], [`publicAddress`])
@@ -162,7 +162,7 @@ var mockPeers = [
     name: 'brian',
     chain: [{index:0, data: ['',{
       name:'mailman',
-      address: '950 a deleware ave',
+      address: '',
       timestamp: moment().format('x'),
       isPostOfficeEmployee: 0,
       signature: getSignature([`publicKey`], [`publicAddress`])
@@ -173,7 +173,7 @@ var mockPeers = [
     name: 'neetesh',
     chain: [{index:0, data: ['',{
       name:'mailman',
-      address: '950 a deleware ave',
+      address: '',
       timestamp: moment().format('x'),
       isPostOfficeEmployee: 0,
       signature: getSignature([`publicKey`], [`publicAddress`])
