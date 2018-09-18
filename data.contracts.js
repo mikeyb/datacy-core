@@ -21,14 +21,18 @@ class Block {
         this.previousHash = previousHash
         this.timestamp = timestamp;
         this.metadata = {
-          data:data,
+          data:{
+            transactions:[]
+          },
           contract:this.contract
         }
         this.hash = hash;
     }
 }
 
-var blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', metadata: {restrictAccess: [], allowAccess:['jordan']}, contract: { hardRules:{ isPrivate:'' }, abilities:[]}}]
+var blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test',
+metadata: { data: {transactions: []}, contract:{
+  restrictAccess: [], allowAccess:['jordan']}},}]
 
 var baseContract = () => { // returns a json object that can be used to add functions to when creating contracts
   var template = {
@@ -69,7 +73,7 @@ var unlockData = (key, encrypted) => {
 var allowAccess = (record, ...peers) => {
   var peers = peers
   for (var i = 0; i < peers.length; i++) {
-    record.metadata.allowAccess.push(peers[i])
+    record.metadata.contract.allowAccess.push(peers[i])
   }
   return
 }
@@ -79,7 +83,7 @@ console.log('lockData', lockData('accessKeys', blockchain[0]));
 
 var contractAbilities = {
   restrictAccess: function (peer, index) {
-    blockchain[index].metadata.restrictAccess.push(peer) // puts the restricted wallet address into the restrictAccess array
+    blockchain[index].metadata.contract.restrictAccess.push(peer) // puts the restricted wallet address into the restrictAccess array
     return blockchain[index] //returns block
   },
   allowAccess: allowAccess,
@@ -88,7 +92,7 @@ var contractAbilities = {
 }
 
 var makePrivate = (record) => { // turns the record private
-  record.contract.hardRules.isPrivate = true
+  record.metadata.contract.isPrivate = true
   record.metadata.allowAccess = []
   return record
 }

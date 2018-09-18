@@ -90,9 +90,11 @@ class Block {
       this.timestamp = moment().format('LLL')
       this.timestampMilliseconds = moment().format('x')
       this.metadata = {
-        data:this.data,
-        contract: this.contract,
-      }
+          data: {
+            transactions:[],
+            },
+          contract: this.contract,
+        },
       this.hash = hash
   }
 }
