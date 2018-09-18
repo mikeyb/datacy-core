@@ -140,7 +140,7 @@ var compress = (data) => {
   console.log(`\nData Size : ${data.length} \nCompressed Size : ${output.length}`);
   return data
 }
-var compressData = compress('hell0000000000000000000000000000000000000000000000o')
+var compressData = compress(blockchain.toString())
 
 var decompress = (input, inputEncoding, outputEncoding) => {
   var decompressed = compression.decompress(input, {outputEncoding:outputEncoding, inputEncoding:inputEncoding})
@@ -148,7 +148,7 @@ var decompress = (input, inputEncoding, outputEncoding) => {
   return decompressed
 }
 
-console.log(decompress(compress('0000000000000000000000000000000000'), 'StorageBinaryString', 'ByteArray'));
+console.log(decompress(compressData, 'StorageBinaryString', 'ByteArray'));
 console.log(lockData('heres some', 'datatatatat'));
 console.log('mostreceent', mostRecentOwner('test', blockchain), '\n');
 console.log('findData', findData('test', blockchain), '\n');
@@ -159,3 +159,11 @@ var contractWorkers = {
 }
 
 console.log(contractAbilities.restrictAccess('some', 0))
+
+app.get('/tests/compress/:data', (req,res) => {
+  res.send(compress(req.params.data))
+})
+
+app.on(3011, () => {
+  console.log('server listening...');
+})
