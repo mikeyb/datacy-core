@@ -5,7 +5,7 @@ var Cryptr = require('cryptr')
 var _ = require('underscore')
 var Math = require('math.js')
 var novochain = require('./novo.chain')
-
+var compression = require('lzutf8')
 var app = new express()
 console.log('_______________\n\nPRIVA\n');
 
