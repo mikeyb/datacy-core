@@ -42,7 +42,6 @@ var blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', meta
 
 var accounts = []
 
-
 // finds block with data containing < 3 objects
 var findEmptyBlock = () => {
   for (var i = 0; i < blockchain.length; i++) {
