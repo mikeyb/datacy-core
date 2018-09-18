@@ -30,9 +30,25 @@ class Block {
     }
 }
 
-var blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test',
-metadata: { data: {transactions: []}, contract:{
-  restrictAccess: [], allowAccess:['jordan']}},}]
+var blockchain = [
+  {
+    index: 0,
+    from:'genisis',
+    to:user.address,
+    data: 'test',
+    metadata: {
+      data: {
+      transactions: []
+    },
+    contract:{
+      hardRules: {
+        isPrivate:'',
+        restrictAccess: [],
+        allowAccess:['jordan'],
+      },
+      abilities: []
+}
+},}]
 
 var baseContract = () => { // returns a json object that can be used to add functions to when creating contracts
   var template = {
@@ -46,11 +62,18 @@ var baseContract = () => { // returns a json object that can be used to add func
 
 console.log(baseContract());
 
+/*
+lockData {function} - encrypts data with aes192
+@params
+- key {string} - a string used to lock data
+- data {string} - a string o data
+*/
+
 var lockData = (key, data) => { // encrypts or locks data with a key. The data can be unlocked with the same key
   console.log(`\nData Length : ${data.length}`);
 
-  const cipher = crypto.createCipher('aes192', 'a password');
-  let encrypted = cipher.update('some clear text data', 'utf8', 'hex');
+  const cipher = crypto.createCipher('aes192', key);
+  let encrypted = cipher.update(data, 'utf8', 'hex');
 
   encrypted += cipher.final('hex');
 
@@ -58,6 +81,13 @@ var lockData = (key, data) => { // encrypts or locks data with a key. The data c
 
   return encrypted
 }
+
+/*
+unlockData {function} - unlocks aes192 encrypted data with the key
+@params
+key {string} - the key used to lock the data
+data {string} the encrypted string of data
+*/
 
 var unlockData = (key, encrypted) => {
   var decipher = crypto.createDecipher('aes192', 'a password');
