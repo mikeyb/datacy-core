@@ -37,14 +37,22 @@ class Block {
     }
 }
 
+class UserData {
+  constructor(data, isPrivate, toAddress, timestamp) {
+    this.data = data
+    this.isPrivate = isPrivate,
+    this.toAddress = toAddress,
+    this.timestamp = moment().format('x'),
+    this.hash = novochain.calculateHash(this.timestamp.toString() + toAddress, data)
+  }
+}
+
 exports.makeBlock = (index, data) => {
   var block = new Block(index, novochain.blockchain[novochain.blockchain.length - 1].hash, moment().format('x'), data)
   block.hash = novochain.calculateHash(index.toString() + block.metadata.toString() + block.timestamp.toString(), data)
   return block
 }
 // console.log(makeBlock(1,'0'));
-
-
 
 var generateNextBlock = (blockData) => {
     var previousBlock = getLatestBlock();
@@ -63,14 +71,6 @@ var createBlockWithTransaction = (blockData) => {
   var block = generateNextBlock(blockData)
   return block
 }
-
-app.get('/tests/compress/:key/:data', (req, res) => {
-  console.log('data compression');
-  res.send(compressData(req.params.key, req.params.data.toString()))
-})
-app.get('tests/createData/:wallet/:data/:restrictions/:isPrivate', (req, res) => {
-
-})
 
 app.listen(3010, (req, res) => {
   console.log('priva listening on port 3010');
