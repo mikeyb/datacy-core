@@ -6,6 +6,7 @@ var _ = require('underscore')
 var Math = require('math.js')
 var novochain = require('./novo.chain')
 
+var app = new express()
 console.log('_______________\n\nPRIVA\n');
 
 
@@ -73,20 +74,22 @@ var createBlockWithTransaction = (blockData) => {
 }
 
 var makePrivateDataKey = (address, privateKey, data) => { // creates the private data key that when shasring data, the owner uses to sign the data
-  var privateKey = calculateHash(privateKey + timestamp, data)
+  var privateKey = novochain.calculateHash(privateKey + moment().format('x'), data)
   return privateKey
 }
 
 var makePublicDataKey = (privateDataKey, timestamp, data) => { // creates the public daa key that the owner uses to sign the public copy of the data that is going to be shared with a peer along with the public key
-  var publicKey = calculateHash(privateDataKey + timestamp, data)
+  var publicKey = novochain.calculateHash(privateDataKey + timestamp, data)
   return publicKey
 }
 
-app.get('datacy-core/test/makePrivateDataKey/:data', (req, res) => {
-  var result = makePrivateDataKey('address', '0x000', 'hello im data')
-  console.log('private data key tested', result);
-  res.send(result)
+app.get('/datacy-core/test/makePrivateDataKey/:data', (req, res) => {
+  var privateKey = makePrivateDataKey('address', '0x000', req.params.data)
+  console.log('private data key tested', privateKey);
+  var publicKey = makePublicDataKey(privateKey, moment().format('x'), req.params.data)
+  res.send({publicKey: publicKey, privateKey:privateKey})
 })
+
 
 app.listen(3010, (req, res) => {
   console.log('priva listening on port 3010');
