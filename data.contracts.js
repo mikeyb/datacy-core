@@ -43,7 +43,7 @@ console.log(baseContract());
 
 var lockData = (key, data) => { // encrypts or locks data with a key. The data can be unlocked with the same key
   console.log(`\nData Length : ${data.length}`);
-  
+
   const cipher = crypto.createCipher('aes192', 'a password');
   let encrypted = cipher.update('some clear text data', 'utf8', 'hex');
 
@@ -122,9 +122,7 @@ var mostRecentOwner = (data, blockchain) => {
   return record.to
 }
 
-var createCipher = (key, data) => {
 
-}
 console.log('mostreceent', mostRecentOwner('test', blockchain), '\n');
 console.log('findData', findData('test', blockchain), '\n');
 console.log('isOwner', isOwner('0x0000fff', 'test', blockchain), '\n');
