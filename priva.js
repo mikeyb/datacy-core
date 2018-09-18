@@ -82,6 +82,12 @@ var makePublicDataKey = (privateDataKey, timestamp, data) => { // creates the pu
   return publicKey
 }
 
+app.get('datacy-core/test/makePrivateDataKey/:data', (req, res) => {
+  var result = makePrivateDataKey('address', '0x000', 'hello im data')
+  console.log('private data key tested', result);
+  res.send(result)
+})
+
 app.listen(3010, (req, res) => {
   console.log('priva listening on port 3010');
 })
