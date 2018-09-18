@@ -44,22 +44,7 @@ exports.makeBlock = (index, data) => {
 }
 // console.log(makeBlock(1,'0'));
 
-class Note {
-  constructor(wallet, data, isPrivate, access, value, asset, dataEval, hash) {
-    this.wallet = wallet
-    this.data = data
-    this.dataEval = {
-      category:'datacategoryAI',
-      type:'',
-    }
-    this.isPrivate = isPrivate
-    this.access = access
-    this.value = value
-    this.asset = asset
-    this.timestamp = moment().format('x')
-    this.hash = novochain.calculateHash(wallet + [`timestamp`], data)
-  }
-}
+
 
 var generateNextBlock = (blockData) => {
     var previousBlock = getLatestBlock();
@@ -106,7 +91,7 @@ app.get('/tests/compress/:key/:data', (req, res) => {
   res.send(compressData(req.params.key, req.params.data.toString()))
 })
 app.get('tests/createData/:wallet/:data/:restrictions/:isPrivate', (req, res) => {
-  
+
 })
 
 app.listen(3010, (req, res) => {
