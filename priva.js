@@ -64,28 +64,6 @@ var createBlockWithTransaction = (blockData) => {
   return block
 }
 
-var lockData = (key, data) => { // encrypts or locks data with a key. The data can be unlocked with the same key
-  console.log(`\nData Length : ${data.length}`);
-  var cryptr = new Cryptr(key.toString())
-  var encrypted = cryptr.encrypt(key, data + moment().format('X'))
-  console.log(`Encrypted Length : ${encrypted.length}`);
-  return encrypted
-}
-
-console.log(lockData('test', '00000000000000000000000000000000000000000'));
-
-var compressData = (key, data) => {
-  console.log(`\nData Length : ${data.length}`);
-  var cryptr = new Cryptr(key.toString()) // place key in here MUST BE STRING
-  var encrypted = cryptr.encrypt(key, data) // encrypts data
-  var compressAmount = (encrypted.length / data.length) * 100 // calculates what % smaller the encrypted data is compared to the raw data
-  console.log(`Encrypted Length : ${encrypted.length}`);
-  console.log(`Compression Amount (%) : ${compressAmount}%`);
-  return encrypted // encrypted string
-}
-
-console.log(compressData('testKey', 'l'));
-
 app.get('/tests/compress/:key/:data', (req, res) => {
   console.log('data compression');
   res.send(compressData(req.params.key, req.params.data.toString()))
