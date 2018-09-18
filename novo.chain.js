@@ -6,6 +6,11 @@ var _ = require('underscore')
 var Math = require('math.js')
 var app = new express();
 
+var user = {
+  port: 3000,
+  host:'111.1.1.1.1',
+  address:'0x0000fff'
+}
 // Displays the current time
 var currentTime = moment().format('x')
 
@@ -77,7 +82,7 @@ class Block {
   constructor(index, previousHash, data, contract, hash, metadata, nonce) {
 
       this.index = index
-      this.nonce  nonce
+      this.nonce = nonce
       this.signers = []
       this.previousHash = previousHash
       this.timestamp = moment().format('LLL')
@@ -92,8 +97,8 @@ class Block {
 
 // creates the genisis block
 var createGenisisBlock = () => {
-  var newBlock = new Block('0', undefined, 'genisis', 'genisis', 'genisis')
-  newBlock.hash = calculateHash(newBlock.index.toString() + newBlock.timestamp.toString(), newBlock.data.toString())
+  var newBlock = new Block('0', '', 'genisis', 'genisis', 'genisis')
+  newBlock.hash = calculateHash(newBlock.index.toString() + newBlock.timestamp.toString(), newBlock.metadata.toString())
   return newBlock
 }
 
