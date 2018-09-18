@@ -152,6 +152,7 @@ var decompress = (input, inputEncoding, outputEncoding) => {
   return decompressed
 }
 
+
 console.log(decompress(compressData, 'StorageBinaryString', 'ByteArray'));
 console.log(lockData('heres some', 'datatatatat'));
 console.log('mostreceent', mostRecentOwner('test', blockchain), '\n');

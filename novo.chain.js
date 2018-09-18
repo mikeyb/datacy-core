@@ -99,9 +99,13 @@ class Block {
   }
 }
 
+var calculateNonce = (latestBlock, numberOfPeers, blocks) => {
+  return latestBlock.nonce * numberOfPeers * blocks
+}
+
 // creates the genisis block
 var createGenisisBlock = () => {
-  var newBlock = new Block('0', '', 'genisis', 'genisis', 'genisis')
+  var newBlock = new Block('0', '', 'genisis', 'genisis', '', '', 1)
   newBlock.hash = calculateHash(newBlock.index.toString() + newBlock.timestamp.toString(), newBlock.metadata.toString())
   return newBlock
 }
