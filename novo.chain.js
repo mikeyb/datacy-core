@@ -75,9 +75,10 @@ var addAccount = (account) => {
 
 // creates a block that can store data
 class Block {
-  constructor(index, previousHash, data, contract, hash, metadata) {
+  constructor(index, previousHash, data, contract, hash, metadata, nonce) {
 
       this.index = index
+      this.nonce  nonce
       this.signers = []
       this.previousHash = previousHash
       this.timestamp = moment().format('LLL')
