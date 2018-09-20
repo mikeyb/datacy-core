@@ -81,7 +81,7 @@ var addAccount = (account) => {
 
 // creates a block that can store data
 class Block {
-  constructor(index, previousHash, data, contract, hash, metadata, nonce) {
+  constructor(index, previousHash, data, hash, metadata, nonce) {
 
       this.index = index
       this.nonce = nonce
@@ -93,7 +93,6 @@ class Block {
           data: {
             transactions:[],
             },
-          contract: this.contract,
         },
       this.hash = hash
   }
