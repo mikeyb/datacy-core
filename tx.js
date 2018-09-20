@@ -7,12 +7,13 @@ var Math = require('math.js')
 
 // copy of a transaction that is sent to the sender
 class TxIn {
-  constructor(data, from, to, id){
+  constructor(data, from, to, id, sign){
     this.id = id
     this.data = data
     this.timestamp = moment()format('x')
     this.from = from
     this.to = to
+    this.sign = sign
   }
 }
 
