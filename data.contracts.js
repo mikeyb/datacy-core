@@ -5,6 +5,7 @@ var Cryptr = require('cryptr')
 var _ = require('underscore')
 var compression = require('lzutf8')
 var Math = require('math.js')
+var os = require('os')
 // var datacy = require('./novo.chain')
 // var priva = require('./priva')
 var app = new express();
@@ -70,10 +71,10 @@ lockData {function} - encrypts data with aes192
 */
 
 var lockData = (key, data) => { // encrypts or locks data with a key. The data can be unlocked with the same key
-  console.log(`\nData Length : ${data.length}`);
+  console.log(`\nData Length : ${data.toString().length}`);
 
-  const cipher = crypto.createCipher('aes192', key);
-  let encrypted = cipher.update(data, 'utf8', 'hex');
+  const cipher = crypto.createCipher('aes192', key.toString());
+  let encrypted = cipher.update(data.toString(), 'utf8', 'hex');
 
   encrypted += cipher.final('hex');
 
@@ -103,7 +104,7 @@ var unlockData = (key, encrypted) => {
 var allowAccess = (record, ...peers) => {
   var peers = peers
   for (var i = 0; i < peers.length; i++) {
-    record.metadata.contract.allowAccess.push(peers[i])
+    record.metadata.contract.hardRules.allowAccess.push(peers[i])
   }
   return
 }
@@ -113,7 +114,7 @@ console.log('lockData', lockData('accessKeys', blockchain[0]));
 
 var contractAbilities = {
   restrictAccess: function (peer, index) {
-    blockchain[index].metadata.contract.restrictAccess.push(peer) // puts the restricted wallet address into the restrictAccess array
+    blockchain[index].metadata.contract.hardRules.restrictAccess.push(peer) // puts the restricted wallet address into the restrictAccess array
     return blockchain[index] //returns block
   },
   allowAccess: allowAccess,
@@ -122,8 +123,8 @@ var contractAbilities = {
 }
 
 var makePrivate = (record) => { // turns the record private
-  record.metadata.contract.isPrivate = true
-  record.metadata.allowAccess = []
+  record.metadata.contract.hardRules.isPrivate = true
+  record.metadata.contract.hardRules.allowAccess = []
   return record
 }
 
@@ -174,7 +175,7 @@ var compress = (data) => {
   console.log(`\nData Size : ${data.length} \nCompressed Size : ${output.length}`);
   return data
 }
-var compressData = compress(blockchain.toString())
+var compressData =compress(lockData('key', blockchain.toString()))
 
 var decompress = (input, inputEncoding, outputEncoding) => {
   var decompressed = compression.decompress(input, {outputEncoding:outputEncoding, inputEncoding:inputEncoding})
@@ -184,12 +185,11 @@ var decompress = (input, inputEncoding, outputEncoding) => {
 
 
 console.log(decompress(compressData, 'StorageBinaryString', 'ByteArray'));
-console.log(lockData('heres some', 'datatatatat'));
 console.log('mostreceent', mostRecentOwner('test', blockchain), '\n');
 console.log('findData', findData('test', blockchain), '\n');
 console.log('isOwner', isOwner('0x0000fff', 'test', blockchain), '\n');
 console.log('isThisUserOwner', isThisUserOwner(blockchain[0]), '\n');
-
+console.log('cpus\n', os.cpus());
 var contractWorkers = {
 }
 
