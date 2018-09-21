@@ -203,6 +203,11 @@ app.get('/tests/mostRecentOwner/:data', (req, res) => {
   res.send(mostRecentOwner(req.params.data, blockchain))
 })
 
+app.get('/tests/isThisUserOwner/:address/:index', (req, res) => {
+  res.send(isThisUserOwner(req.params.address, blockchain[index]))
+})
+
+
 app.on(3011, () => {
   console.log('server listening...');
 })
