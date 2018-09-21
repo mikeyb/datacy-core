@@ -199,6 +199,10 @@ app.get('/tests/compress/:data', (req,res) => {
   res.send(compress(req.params.data))
 })
 
+app.get('/tests/mostRecentOwner/:data', (req, res) => {
+  res.send(mostRecentOwner(req.params.data, blockchain))
+})
+
 app.on(3011, () => {
   console.log('server listening...');
 })
