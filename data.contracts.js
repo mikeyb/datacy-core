@@ -114,7 +114,7 @@ console.log('lockData', lockData('accessKeys', blockchain[0]));
 var contractAbilities = {
   restrictAccess: function (peer, index) {
     blockchain[index].metadata.contract.restrictAccess.push(peer) // puts the restricted wallet address into the restrictAccess array
-    return blockchain[index] //returns block
+    return blockchain[index] 
   },
   allowAccess: allowAccess,
 
