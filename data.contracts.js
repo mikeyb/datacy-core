@@ -19,7 +19,7 @@ var user = {
 class Block {
     constructor(index, previousHash, timestamp, data, contract, hash) {
         this.index = index;
-        this.previousHash = previousHash
+        this.previousHash = previousHash;
         this.timestamp = timestamp;
         this.metadata = {
           data:{
