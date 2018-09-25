@@ -81,7 +81,7 @@ var addAccount = (account) => {
 
 // creates a block that can store data
 class Block {
-  constructor(index, previousHash, data, contract, hash, metadata, nonce) {
+  constructor(index, previousHash, data, hash, metadata, nonce) {
 
       this.index = index
       this.nonce = nonce
@@ -93,7 +93,6 @@ class Block {
           data: {
             transactions:[],
             },
-          contract: this.contract,
         },
       this.hash = hash
   }
@@ -105,7 +104,7 @@ var calculateNonce = (latestBlock, numberOfPeers, blocks) => {
 
 // creates the genisis block
 var createGenisisBlock = () => {
-  var newBlock = new Block('0', '', 'genisis', 'genisis', '', '', 1)
+  var newBlock = new Block(1, '', 'genisis', 'genisis', '', '', 1)
   newBlock.hash = calculateHash(newBlock.index.toString() + newBlock.timestamp.toString(), newBlock.metadata.toString())
   return newBlock
 }
@@ -209,7 +208,7 @@ var getLatestBlock = () => {
 var newBlock = (index, previousBlock, name, toAddress, fromAddress, data, contract, metadata ) => {
   var block = new Block(index, previousBlock.hash, name, toAddress, fromAddress, data, contract, metadata)
 
-  block.hash = calculateHash(index + block.previousHash.toString(), block.timestamp + block.metadata)
+  block.hash = calculateHash(index + block.previousHash.toString() + signers, block.timestamp + block.metadata)
   console.log('\nnew block', block);
   return block
 }
@@ -233,7 +232,7 @@ var addBlock = (block, isNewBlockValid) => {
 // a mock letter
 // var letter1 = newLetter(0, 'jordan', '157 hazelwood rd', 'dayton', '', 'hello old home', 1)
 
-var signLetter = (block, x) => {
+var signBlock = (block, x) => {
   var cryptr = new Cryptr(x)
 
   block.hash = cryptr.encrypt(block.hash)
@@ -259,8 +258,8 @@ var generateNextBlock = () => {
   return new Block(thisIndex)
 }
 
-var scanLetter = (letter, signature) => {
-  var signed = signLetter(letter.hash, signature)
+var scanBlock = (block, signature) => {
+  var signed = signLetter(block.hash, signature)
   return signed
 }
 

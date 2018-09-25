@@ -40,9 +40,8 @@ class Block {
 }
 
 class UserData {
-  constructor(data, isPrivate, toAddress, timestamp) {
+  constructor(data, toAddress, timestamp) {
     this.data = data
-    this.isPrivate = isPrivate,
     this.toAddress = toAddress,
     this.timestamp = moment().format('x'),
     this.hash = novochain.calculateHash(this.timestamp.toString() + toAddress, data)
