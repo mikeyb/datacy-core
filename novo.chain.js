@@ -13,6 +13,7 @@ var user = {
   host:'111.1.1.1.1',
   address:'0x0000fff'
 }
+
 // Displays the current time
 var currentTime = moment().format('x')
 
@@ -38,14 +39,10 @@ var calculateHash = (key, x) => {
   return hash
 }
 
-// console.log(calculateHash('test', 'jordan'));
 // An array that stores blocks
 exports.blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', metadata: {restrictAccess: [], allowAccess:['jordan']}, contract: { hardRules:{ isPrivate:'' }, abilities:[]}}]
 
 var blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', metadata: {restrictAccess: [], allowAccess:['jordan']}, contract: { hardRules:{ isPrivate:'' }, abilities:[]}}]
-//
-// blockchain[0].hash = calculateHash(blockchain[0].index.toString() + blockchain[0].data.toString(), blockchain[0].index.toString(),)
-// console.log(blockchain);
 
 var accounts = []
 
@@ -75,9 +72,6 @@ var addAccount = (account) => {
   console.log('\naccount created\n');
   return blockchain[empty]
 }
-//
-// console.log(addAccount(new Account('jordan', '950 a deleware ave', 1)));
-// console.log(accounts);
 
 // creates a block that can store data
 class Block {
@@ -112,12 +106,10 @@ var createGenisisBlock = () => {
 
 console.log(`Genisis Block\n ${createGenisisBlock()}`);
 
-
 var getBits = (data) => {
   var data = data.toString()
   return data.length
 }
-
 
 var makePublicKey = (privateKey, account) => {
   if (privateKey.time < moment().format('x')) {
@@ -150,9 +142,6 @@ var makePublicAddress = (account) => {
   console.log('\nmakePublicAddress', account, '\n');
   return account
 }
-
-// makePublicKey(makePrivateKey(blockchain[0].data[2]), blockchain[0].data[2])
-// makePublicAddress(blockchain[0].data[2])
 
 /*
 mockPeers is a mock hard coded example network of peers and some of their data for test purposes.
@@ -286,8 +275,6 @@ var majority = (peers) => { // determines the majority as a number being 51% of 
   return number + 1
 }
 
-// majority(allChains)
-
 var compareChainLength = (allChains) => {
   var most = majority(allChains) // gets the number of perople required for majority
   var matched = 1 // we start this at 1 because when the peer is checked there would be 2 matches if they match
@@ -310,8 +297,6 @@ var compareChainLength = (allChains) => {
     return 'majority disagree on copy' // if anything else return majority disagree
   }
 }
-
-// console.log(compareChainLength(allChains));
 
 var verificationData = ''
 
@@ -352,7 +337,6 @@ var verifyNewBlock = (newBlock, blockchain) => {
   }
 }
 
-
 //Calculates the amount of verifications that will take place
 var calcVerification = (amountUsers, chainLength) => {
     var fullAmount = amountUsers * (chainLength) * amountUsers
@@ -364,9 +348,6 @@ var calcVerification = (amountUsers, chainLength) => {
   );
     return fullAmountReduced
 }
-
-// console.log('calcVerification', (calcVerification(19,3)));
-// console.log('verify',verifyNewBlock(new Block(0, ''), blockchain));
 
 // checks to see if the sender sending data is the owner of the block
 var verifySenderSentData = {
@@ -392,8 +373,6 @@ var findBlockDifference = (a, b) => {
   return different
 }
 
-// console.log('findBlockDifference',findBlockDifference(blockchain, mockPeers[1].chain));
-
 // An object containing all the consensus mechanisms (functions)
 var consensusMechanisms = {
   compareChainLength: compareChainLength,
@@ -407,7 +386,6 @@ var compareLast = (peer, peers) => {
   var lastIndex = peers[peers.length - 1]
 
 }
-
 
 app.get('/blocks/:data', (req, res) => {
   var latestBlock = getLatestBlock()
@@ -443,9 +421,11 @@ app.get('/generateNextBlock', (req, res) => {
 app.get('/getBits/:data', (req, res) => {
   res.send(getBits(req.params.data))
 })
+
 //sign block
 // console.log('\n',signLetter(blockchain[1], getSignature('jordan', moment().format('x'))));
 // starts server
+
 app.listen(3000, () => {
   console.log('\npost.chain : active...');
 })
