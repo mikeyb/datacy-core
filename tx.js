@@ -7,6 +7,9 @@ var Math = require('math.js')
 var novochain = require('./novo.chain')
 var Contracts = require('./data.contracts')
 
+var app = new express()
+
+
 class UserData {
   constructor(data, sign, address, timestamp, keys) {
     this.data = data
@@ -59,7 +62,7 @@ var createShards = (userData, numberOfPeers) => {
   var size = userData.data.length
   var shardSize = size / numberOfPeers
   for (var i = 0; i < userData.data.length; i++) {
-    if (i < shardSize) { 
+    if (i < shardSize) {
       shardArray.push(userData.data[i])
       console.log(shardArray);
     }
@@ -67,3 +70,8 @@ var createShards = (userData, numberOfPeers) => {
 }
 console.log(createShards({data:'hello'}, 3));
 console.log(createUploadTX('hello', 'j', '0000000', '','','00'));
+
+
+app.listen(3001, () => {
+  console.log('server listening...\n');
+})
