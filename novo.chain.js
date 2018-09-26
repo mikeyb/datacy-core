@@ -439,6 +439,10 @@ app.get('/calculateNonce/:numberOfPeers/:block', (req, res) => {
 app.get('/generateNextBlock', (req, res) => {
   res.send(generateNextBlock())
 })
+
+app.get('/getBits/:data', (req, res) => {
+  res.send(getBits(req.params.data))
+})
 //sign block
 // console.log('\n',signLetter(blockchain[1], getSignature('jordan', moment().format('x'))));
 // starts server
