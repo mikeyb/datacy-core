@@ -431,6 +431,10 @@ app.get('/findBlockDifference/:block1/:block2', (req, res) => {
 app.get('/addBlock/:block', (req, res) => {
   res.send(addBlock(req.params.block, isNewBlockValid))
 })
+
+app.get('/calculateNonce/:numberOfPeers/:block', (req, res) => {
+  res.send(calculateNonce(getLatestBlock(), req.params.numberOfPeers, req.params.block))
+})
 //sign block
 // console.log('\n',signLetter(blockchain[1], getSignature('jordan', moment().format('x'))));
 // starts server
