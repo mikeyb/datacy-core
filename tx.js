@@ -73,6 +73,10 @@ app.get('/createShards/:data/:numberOfPeers', (req, res) => {
   res.send(createShards(req.params.data, req.params.numberOfPeers))
 })
 
+app.get('/newTx/:data/:from/:to/', (req, res) => {
+  res.send(new TxIn(req.params.data, req.params.from, req.params.to))
+})
+
 app.listen(3001, () => {
   console.log('server listening...\n');
 })
