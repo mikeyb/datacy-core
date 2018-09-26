@@ -423,6 +423,10 @@ app.get('/verifySenderSentData/:block', (req, res) => {
 app.get('/verifyNewBlock/:block', (req, res) => {
   res.send(verifyNewBlock(req.params.block, blockchain))
 })
+
+app.get('/findBlockDifference/:block1/:block2', (req, res) => {
+  res.send(findBlockDifference(req.params.block1, req.params.block2))
+})
 //sign block
 // console.log('\n',signLetter(blockchain[1], getSignature('jordan', moment().format('x'))));
 // starts server
