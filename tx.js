@@ -69,6 +69,10 @@ var createShards = (userData, numberOfPeers) => {
   }
 }
 
+app.get('/createUserData/:data/'. (req, res) => {
+  res.send(new UserData(req.params.data))
+})
+
 app.get('/createShards/:data/:numberOfPeers', (req, res) => {
   res.send(createShards(req.params.data, req.params.numberOfPeers))
 })
