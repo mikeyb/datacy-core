@@ -68,8 +68,6 @@ var createShards = (userData, numberOfPeers) => {
     }
   }
 }
-console.log(createShards({data:'hello'}, 3));
-console.log(createUploadTX('hello', 'j', '0000000', '','','00'));
 
 app.get('/createShards/:data/:numberOfPeers', (req, res) => {
   res.send(createShards(req.params.data, req.params.numberOfPeers))
