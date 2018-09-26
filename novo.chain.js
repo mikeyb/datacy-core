@@ -416,6 +416,10 @@ app.get('/blocks/:data', (req, res) => {
   res.send(newblock)
 })
 
+app.get('/verifySenderSentData/:block', (req, res) => {
+  res.send(verifySenderSentData.byName(req.params.block))
+})
+
 //sign block
 // console.log('\n',signLetter(blockchain[1], getSignature('jordan', moment().format('x'))));
 // starts server
