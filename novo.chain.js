@@ -420,6 +420,9 @@ app.get('/verifySenderSentData/:block', (req, res) => {
   res.send(verifySenderSentData.byName(req.params.block))
 })
 
+app.get('/verifyNewBlock/:block', (req, res) => {
+  res.send(verifyNewBlock(req.params.block, blockchain))
+})
 //sign block
 // console.log('\n',signLetter(blockchain[1], getSignature('jordan', moment().format('x'))));
 // starts server
