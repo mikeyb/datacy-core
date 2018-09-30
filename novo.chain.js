@@ -6,23 +6,23 @@ const _ = require('underscore')
 const Math = require('math.js')
 const compression = require('lzutf8')
 const bodyParser = require('body-parser')
-var app = new express();
+const app = new express();
 
-var urlEncodedParser = bodyParser.urlencoded({ extended: false})
+const urlEncodedParser = bodyParser.urlencoded({ extended: false })
 
 app.use(urlEncodedParser)
 
-var user = {
+const user = {
   port: 3000,
-  host:'111.1.1.1.1',
-  address:'0x0000fff'
+  host: '111.1.1.1.1',
+  address: '0x0000fff'
 }
 
 // Displays the current time
-var currentTime = moment().format('x')
+let currentTime = moment().format('x')
 
 // Gets the tx  signature by encryption, using the address as the key, and the public key and current tine, as the target
-var getSignature = (publicKey, address) => {
+const getSignature = (publicKey, address) => {
   var cryptr = new Cryptr(address.toString())
   return cryptr.encrypt(publicKey, moment().format('x'))
 }
@@ -31,27 +31,27 @@ var getSignature = (publicKey, address) => {
 exports.calculateHash = (key, data) => {
   const secret = key.toString();
   return crypto.createHmac('sha256', data)
-                   .update(key.toString())
-                   .digest('hex');
+    .update(key.toString())
+    .digest('hex');
 }
 
 var calculateHash = (key, x) => {
   const secret = key.toString();
   const hash = crypto.createHmac('sha256', x)
-                   .update(key.toString())
-                   .digest('hex');
+    .update(key.toString())
+    .digest('hex');
   return hash
 }
 
 // An array that stores blocks
-exports.blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', metadata: {restrictAccess: [], allowAccess:['jordan']}, contract: { hardRules:{ isPrivate:'' }, abilities:[]}}]
+exports.blockchain = [{ index: 0, from: 'genisis', to: user.address, data: 'test', metadata: { restrictAccess: [], allowAccess: ['jordan'] }, contract: { hardRules: { isPrivate: '' }, abilities: [] } }]
 
-var blockchain = [{index: 0, from:'genisis', to:user.address, data: 'test', metadata: {restrictAccess: [], allowAccess:['jordan']}, contract: { hardRules:{ isPrivate:'' }, abilities:[]}}]
+let blockchain = [{ index: 0, from: 'genisis', to: user.address, data: 'test', metadata: { restrictAccess: [], allowAccess: ['jordan'] }, contract: { hardRules: { isPrivate: '' }, abilities: [] } }]
 
-var accounts = []
+let accounts = []
 
 // finds block with data containing < 3 objects
-var findEmptyBlock = () => {
+const findEmptyBlock = () => {
   for (var i = 0; i < blockchain.length; i++) {
     if (blockchain[i].data.length < 3) {
       console.log('\nempty block\n');
@@ -70,7 +70,7 @@ class Account {
 }
 
 // adds the created account data to a block in the ledger and can be used to reference the user info
-var addAccount = (account) => {
+const addAccount = (account) => {
   var empty = findEmptyBlock()
   blockchain[empty].data.push(account)
   console.log('\naccount created\n');
@@ -81,28 +81,28 @@ var addAccount = (account) => {
 class Block {
   constructor(index, previousHash, data, contract, hash, metadata, nonce) {
 
-      this.index = index
-      this.nonce = nonce
-      this.signers = []
-      this.previousHash = previousHash
-      this.timestamp = moment().format('LLL')
-      this.timestampMilliseconds = moment().format('x')
-      this.metadata = {
-          data: {
-            transactions:[],
-            },
-          contract: this.contract,
-        },
+    this.index = index
+    this.nonce = nonce
+    this.signers = []
+    this.previousHash = previousHash
+    this.timestamp = moment().format('LLL')
+    this.timestampMilliseconds = moment().format('x')
+    this.metadata = {
+      'data': {
+        'transactions': [],
+      },
+      'contract': this.contract,
+    },
       this.hash = hash
   }
 }
 
-var calculateNonce = (latestBlock, numberOfPeers, blocks) => {
+const calculateNonce = (latestBlock, numberOfPeers, blocks) => {
   return latestBlock.nonce * numberOfPeers * blocks
 }
 
 // creates the genisis block
-var createGenisisBlock = () => {
+const createGenisisBlock = () => {
   var newBlock = new Block('0', '', 'genisis', 'genisis', '', '', 1)
   newBlock.hash = calculateHash(newBlock.index.toString() + newBlock.timestamp.toString(), newBlock.metadata.toString())
   return newBlock
@@ -110,15 +110,15 @@ var createGenisisBlock = () => {
 
 console.log(`Genisis Block\n ${createGenisisBlock()}`);
 
-var getBits = (data) => {
+const getBits = (data) => {
   var data = data.toString()
   return data.length
 }
 
-var makePublicKey = (privateKey, account) => {
+const makePublicKey = (privateKey, account) => {
   if (privateKey.time < moment().format('x')) {
-    var keypairs  = {
-      publicKey : calculateHash(privateKey.hash.toString(), moment().format('x')),
+    var keypairs = {
+      'publicKey': calculateHash(privateKey.hash.toString(), moment().format('x')),
     }
     account.publicKey = keypairs.publicKey
     console.log('\n makePublicKey\n', account, '\n');
@@ -131,14 +131,14 @@ var makePublicKey = (privateKey, account) => {
 var makePrivateKey = (yourAccount) => {
   const secret = currentTime.toString();
   const hash = crypto.createHmac('sha256', secret)
-                   .update(yourAccount.address + yourAccount.name)
-                   .digest('hex');
-   var obj = {
-         hash:hash,
-         time:yourAccount.timestamp.toString()
-       }
-     console.log('\nprivateKey\n', hash, '\n');
-     return obj
+    .update(yourAccount.address + yourAccount.name)
+    .digest('hex');
+  var obj = {
+    'hash': hash,
+    'time': yourAccount.timestamp.toString()
+  }
+  console.log('\nprivateKey\n', hash, '\n');
+  return obj
 }
 
 var makePublicAddress = (account) => {
@@ -152,51 +152,73 @@ mockPeers is a mock hard coded example network of peers and some of their data f
 */
 var mockPeers = [
   {
-    port:3000,
-    name: 'jordan',
-    chain: [{index:0, data: ['',{
-      name:'mailman',
-      address: '',
-      timestamp: moment().format('x'),
-      isPostOfficeEmployee: 0,
-      signature: getSignature([`publicKey`], [`publicAddress`])
-    }]}]
-  },
-  {
-    port:3001,
-    name: 'brian',
-    chain: [{index:0, data: ['',{
-      name:'mailman',
-      address: '',
-      timestamp: moment().format('x'),
-      isPostOfficeEmployee: 0,
-      signature: getSignature([`publicKey`], [`publicAddress`])
-    }]}]
-  },
-  {
-    port:3002,
-    name: 'neetesh',
-    chain: [{index:0, data: ['',{
-      name:'mailman',
-      address: '',
-      timestamp: moment().format('x'),
-      isPostOfficeEmployee: 0,
-      signature: getSignature([`publicKey`], [`publicAddress`])
-    }]}]
+    'port': 3000,
+    'name': 'jordan',
+    'chain': [
+      {
+        'index': 0,
+        'data': [
+          '',
+          {
+            'name': 'mailman',
+            'address': '',
+            'timestamp': moment().format('x'),
+            'isPostOfficeEmployee': 0,
+            'signature': getSignature([`publicKey`], [`publicAddress`])
+          }
+        ]
+      }
+    ]
+  }, {
+    'port': 3001,
+    'name': 'brian',
+    'chain': [
+      {
+        'index': 0,
+        'data': [
+          '',
+          {
+            'name': 'mailman',
+            'address': '',
+            'timestamp': moment().format('x'),
+            'isPostOfficeEmployee': 0,
+            'signature': getSignature([`publicKey`], [`publicAddress`])
+          }
+        ]
+      }
+    ]
+  }, {
+    'port': 3002,
+    'name': 'neetesh',
+    'chain': [
+      {
+        'index': 0,
+        'data': [
+          '',
+          {
+            'name': 'mailman',
+            'address': '',
+            'timestamp': moment().format('x'),
+            'isPostOfficeEmployee': 0,
+            'signature': getSignature([`publicKey`], [`publicAddress`])
+          }
+        ]
+      }
+    ]
   }
 ]
 
-var baseEncrypt = (data, x) => {
+const baseEncrypt = (data, x) => {
   var cryptr = new Cryptr(x)
   var encrypt = cryptr.encrypt(data)
   return encrypt
 }
 
-var getLatestBlock = () => {
+const getLatestBlock = () => {
   return blockchain[blockchain.length - 1]
 }
 
-var newBlock = (index, previousBlock, name, toAddress, fromAddress, data, contract, metadata ) => {
+const newBlock = (index, previousBlock, name, toAddress, fromAddress, data, contract, metadata) => {
   var block = new Block(index, previousBlock.hash, name, toAddress, fromAddress, data, contract, metadata)
 
   block.hash = calculateHash(index + block.previousHash.toString() + signers, block.timestamp + block.metadata)
@@ -204,10 +226,8 @@ var newBlock = (index, previousBlock, name, toAddress, fromAddress, data, contra
   return block
 }
 
-
-
 // adds a block if the blockchain is determined valid by the isNewBlockValid function which is yet to be added
-var addBlock = (block, isNewBlockValid) => {
+const addBlock = (block, isNewBlockValid) => {
   if (isNewBlockValid === true) {
     blockchain.push(block)
     console.log(blockchain);
@@ -223,7 +243,7 @@ var addBlock = (block, isNewBlockValid) => {
 // a mock letter
 // var letter1 = newLetter(0, 'jordan', '157 hazelwood rd', 'dayton', '', 'hello old home', 1)
 
-var signBlock = (block, x) => {
+const signBlock = (block, x) => {
   var cryptr = new Cryptr(x)
 
   block.hash = cryptr.encrypt(block.hash)
@@ -233,7 +253,7 @@ var signBlock = (block, x) => {
 
 // console.log(measureContents(1, 2.4));
 
-var compareSize =(received, blockchain) => {
+const compareSize = (received, blockchain) => {
   if (received.length === blockchain.length) {
     return true
   }
@@ -242,19 +262,19 @@ var compareSize =(received, blockchain) => {
   }
 }
 
-var generateNextBlock = () => {
+const generateNextBlock = () => {
   var latest = getLatestBlock()
   var latestIndex = latest.index
   var thisIndex = latestIndex + 1
   return new Block(thisIndex)
 }
 
-var scanBlock = (block, signature) => {
+const scanBlock = (block, signature) => {
   var signed = signLetter(block.hash, signature)
   return signed
 }
 
-var getPeerChains = () => {
+const getPeerChains = () => {
   var peerChains = []
 
   for (var i = 0; i < mockPeers.length; i++) {
@@ -263,9 +283,9 @@ var getPeerChains = () => {
   return peerChains
 }
 
-var allChains = getPeerChains()
+const allChains = getPeerChains()
 
-var majority = (peers) => { // determines the majority as a number being 51% of the network
+const majority = (peers) => { // determines the majority as a number being 51% of the network
   var size = peers.length
   var half = size / 2
   var number = ''
@@ -276,12 +296,12 @@ var majority = (peers) => { // determines the majority as a number being 51% of 
   return number + 1
 }
 
-var compareChainLength = (allChains) => {
-  var most = majority(allChains) // gets the number of perople required for majority
-  var matched = 1 // we start this at 1 because when the peer is checked there would be 2 matches if they match
-  var matchIndexes = [] // indexes of the matching records
-  var f = 0
-  for (var i = 1; i <= most;) {
+const compareChainLength = (allChains) => {
+  const most = majority(allChains) // gets the number of perople required for majority
+  let matched = 1 // we start this at 1 because when the peer is checked there would be 2 matches if they match
+  let matchIndexes = [] // indexes of the matching records
+  let f = 0
+  for (let i = 1; i <= most;) {
     if (allChains[i].length === allChains[f].length) { // if chain 0 == chain 1 then 1 is incrementally increased to the next whole number and tecord 0 is compared to 2
       matched + 1 // if they match the # of matches increment 1
       matchIndexes.push(i)
@@ -299,9 +319,9 @@ var compareChainLength = (allChains) => {
   }
 }
 
-var verificationData = ''
+let verificationData = ''
 
-var verifyNewBlock = (newBlock, blockchain) => {
+const verifyNewBlock = (newBlock, blockchain) => {
   var latestBlock = getLatestBlock()
   if (newBlock.index === 0) { // checks to see if block created is genesis block
     var indexDiff = newBlock.index - latestBlock.index - 1
@@ -311,7 +331,7 @@ var verifyNewBlock = (newBlock, blockchain) => {
   else if (newBlock.timestamp < latestBlock.timestamp && newBlock.index <= latestBlock.index) { // if new blocks timestamp is before the last blocks timestamp then it throws a time err
     console.log('time err : new block has earlier time than latest');
     return 'time err'
-  } else if (latestBlock.index > newBlock.index){ // verifies if the new blocks index is less than the last blocks and throws a dispute
+  } else if (latestBlock.index > newBlock.index) { // verifies if the new blocks index is less than the last blocks and throws a dispute
     console.log('earlier block being disputed');
     var dispute = {
       disputed: blockchain[newBlock.index],
@@ -339,20 +359,20 @@ var verifyNewBlock = (newBlock, blockchain) => {
 }
 
 //Calculates the amount of verifications that will take place
-var calcVerification = (amountUsers, chainLength) => {
-    var fullAmount = amountUsers * (chainLength) * amountUsers
-    var fullAmountReduced = amountUsers / 2 * (chainLength) * (amountUsers / 2)
+const calcVerification = (amountUsers, chainLength) => {
+  var fullAmount = amountUsers * (chainLength) * amountUsers
+  var fullAmountReduced = amountUsers / 2 * (chainLength) * (amountUsers / 2)
 
-    var amountVerifications = amountUsers / 2 * (chainLength) + 1
-    var percentReduced = 100 - fullAmountReduced / fullAmount * 100
-    console.log( `Percent reduced is ${percentReduced}%,  ${amountVerifications} comparisons for 50% of the users to verify ${chainLength} records.. ${fullAmount} comparisons for all users to verify ${chainLength} records for 50% users , ${fullAmountReduced} comparisons for 50% of the users to verify ${chainLength} records by pinging 50% of the users`
+  var amountVerifications = amountUsers / 2 * (chainLength) + 1
+  var percentReduced = 100 - fullAmountReduced / fullAmount * 100
+  console.log(`Percent reduced is ${percentReduced}%,  ${amountVerifications} comparisons for 50% of the users to verify ${chainLength} records.. ${fullAmount} comparisons for all users to verify ${chainLength} records for 50% users , ${fullAmountReduced} comparisons for 50% of the users to verify ${chainLength} records by pinging 50% of the users`
   );
-    return fullAmountReduced
+  return fullAmountReduced
 }
 
 // checks to see if the sender sending data is the owner of the block
-var verifySenderSentData = {
-  byName: function (block) {
+const verifySenderSentData = {
+  'byName': (block) => {
     for (var i = 0; i < mockPeers.length; i++) {
       if (mockPeers[i].name === block.name && mockPeers[i].chain[block.index].name == mockPeers[i].name) {
         console.log('name match. check for time error');
@@ -369,22 +389,21 @@ var verifySenderSentData = {
 }
 
 // Finds the difference between 2 blocks
-var findBlockDifference = (a, b) => {
-  var different = _.difference(a,b)
-  return different
+const findBlockDifference = (a, b) => {
+  return _.difference(a, b)
 }
 
 // An object containing all the consensus mechanisms (functions)
-var consensusMechanisms = {
-  compareChainLength: compareChainLength,
-  verifySenderSentData: verifySenderSentData,
-  verifyNewBlock: verifyNewBlock,
-  findBlockDifference: findBlockDifference
+const consensusMechanisms = {
+  'compareChainLength': compareChainLength,
+  'verifySenderSentData': verifySenderSentData,
+  'verifyNewBlock': verifyNewBlock,
+  'findBlockDifference': findBlockDifference
 }
 
 
-var compareLast = (peer, peers) => {
-  var lastIndex = peers[peers.length - 1]
+const compareLast = (peer, peers) => {
+  const lastIndex = peers[peers.length - 1]
 
 }
 
@@ -397,9 +416,9 @@ app.get('/blocks/:data', (req, res) => {
 
 app.post('/blocks/:data', urlEncodedParser, (req, res) => {
 
-	const block = somefunction (req.body.data);
-	console.log()
-	res.redirect('/blocks');
+  const block = somefunction(req.body.data);
+  console.log()
+  res.redirect('/blocks');
 
 })
 
