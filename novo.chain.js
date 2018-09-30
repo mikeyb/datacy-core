@@ -5,8 +5,12 @@ const Cryptr = require('cryptr')
 const _ = require('underscore')
 const Math = require('math.js')
 const compression = require('lzutf8')
-
+const bodyParser = require('body-parser')
 var app = new express();
+
+var urlEncodedParser = bodyParser.urlencoded({ extended: false})
+
+app.use(urlEncodedParser)
 
 var user = {
   port: 3000,
@@ -187,9 +191,6 @@ var baseEncrypt = (data, x) => {
   var encrypt = cryptr.encrypt(data)
   return encrypt
 }
-
-// function test
-// console.log(findEmptyBlock());
 
 var getLatestBlock = () => {
   return blockchain[blockchain.length - 1]
@@ -392,6 +393,14 @@ app.get('/blocks/:data', (req, res) => {
   var newblock = new Block(getLatestBlock(), blockchain[latestBlock.index].hash, req.params.data)
   console.log('new block test', newblock);
   res.send(newblock)
+})
+
+app.post('/blocks/:data', urlEncodedParser, (req, res) => {
+
+	const block = somefunction (req.body.data);
+	console.log()
+	res.redirect('/blocks');
+
 })
 
 app.get('/verifySenderSentData/:block', (req, res) => {
