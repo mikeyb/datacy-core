@@ -1,10 +1,10 @@
-var moment = require('moment')
-var crypto = require('crypto')
-var express = require('express')
-var Cryptr = require('cryptr')
-var _ = require('underscore')
-var Math = require('math.js')
-var compression = require('lzutf8')
+const moment = require('moment')
+const crypto = require('crypto')
+const express = require('express')
+const Cryptr = require('cryptr')
+const _ = require('underscore')
+const Math = require('math.js')
+const compression = require('lzutf8')
 
 var app = new express();
 
