@@ -1,5 +1,5 @@
 const moment = require('moment')
-const crypto = require('crypto')
+const SHA256 = require("crypto-js/sha256");
 const express = require('express')
 const Cryptr = require('cryptr')
 const _ = require('underscore')
